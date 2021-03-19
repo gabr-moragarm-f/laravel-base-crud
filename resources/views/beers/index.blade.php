@@ -6,7 +6,6 @@
 
   <title>Laravel</title>
 
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('css/app.css')}}">
 </head>
@@ -24,9 +23,11 @@
       @foreach ($beers as $beer)
         <tr>
           <th scope="row">{{$beer->id}}</th>
-          <td>{{$beer->name}}</td>
+          <td>
+            <a href="{{route('beers.show', $beer)}}">{{$beer->name}}</a>
+          </td>
           <td>{{$beer->quantity}}</td>
-          <td>{{$beer->volume}}</td>
+          <td>{{$beer->volume}}%vol</td>
           <td><img src="{{asset($beer->image)}}" alt="{{$beer->name}}" height="150"></td>
         </tr>
       @endforeach
