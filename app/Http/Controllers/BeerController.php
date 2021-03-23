@@ -38,6 +38,8 @@ class BeerController extends Controller
   */
   public function store(Request $request)
   {
+    $this->validateForm($request);
+
     $data = $request->all();
     $beerNew = new Beer();
     $beerNew->name = $data['name'];
@@ -67,9 +69,9 @@ class BeerController extends Controller
   * @param  int  $id
   * @return \Illuminate\Http\Response
   */
-  public function edit($id)
+  public function edit(Beer $beer)
   {
-    //
+    return view('beers.edit', compact('beer'));
   }
 
   /**
@@ -79,9 +81,15 @@ class BeerController extends Controller
   * @param  int  $id
   * @return \Illuminate\Http\Response
   */
-  public function update(Request $request, $id)
+  public function update(Request $request, Beer $beer)
   {
-    //
+    $this->validateForm($request);
+
+    $data = $request->all();
+
+    $beer->update($data);
+
+    return redirect()->route('beers.index');
   }
 
   /**
@@ -90,8 +98,20 @@ class BeerController extends Controller
   * @param  int  $id
   * @return \Illuminate\Http\Response
   */
-  public function destroy($id)
+  public function destroy(Beer $beer)
   {
-    //
+    $beer->delete();
+
+    return redirect()->route('beers.index');
+  }
+
+  protected function validateForm(Request $request)
+  {
+    $request->validate([
+      'name' => 'required|max:255',
+      'quantity' => 'required|max:255',
+      'volume' => 'required|digits_between:1,4',
+      'image' => 'required|url|max:255',
+    ]);
   }
 }

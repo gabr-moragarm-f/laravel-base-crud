@@ -15,8 +15,9 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Name</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Volume</th>
+        <th scope="col">Image(URL)</th>
       </tr>
     </thead>
     <tbody>
@@ -29,9 +30,25 @@
           <td>{{$beer->quantity}}</td>
           <td>{{$beer->volume}}%vol</td>
           <td><img src="{{asset($beer->image)}}" alt="{{$beer->name}}" height="150"></td>
+          <td>
+            <a href="{{route('beers.edit', $beer)}}">
+              <button type="button" name="button">Edit!</button>
+            </a>
+
+            <form action="{{route('beers.destroy', $beer)}}" method="post">
+              @csrf
+
+              @method('DELETE')
+
+              <button type="submit" name="button">DELETE</button>
+            </form>
+          </td>
         </tr>
       @endforeach
     </tbody>
   </table>
+  <a href="{{route('beers.create')}}">
+    <button type="button" name="button">Create!</button>
+  </a>
 </body>
 </html>
